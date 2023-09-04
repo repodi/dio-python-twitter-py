@@ -1,10 +1,10 @@
 from typing import Any, Dict, List
 
 import tweepy
+from src.ConfigurationLoader import ConfigurationLoader as configuration
 
 from src.connection import trends_collection
 from src.constants import BRAZIL_WOE_ID
-from src.secrets import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRET
 
 
 def _get_trends(woe_id: int, api: tweepy.API) -> List[Dict[str, Any]]:
@@ -36,6 +36,11 @@ def get_trends() -> List[Dict[str, Any]]:
 
 def save_trends() -> None:
     """Get trends topics and save on MongoDB."""
+    CONSUMER_KEY = configuration.get_value_environment(key="CONSUMER_KEY")
+    CONSUMER_SECRET = configuration.get_value_environment(key="CONSUMER_SECRET")
+    ACCESS_TOKEN = configuration.get_value_environment(key="ACCESS_TOKEN")
+    ACCESS_TOKEN_SECRET = configuration.get_value_environment(key="ACCESS_TOKEN_SECRET")
+    
     auth = tweepy.OAuthHandler(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 

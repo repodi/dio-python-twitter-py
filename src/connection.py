@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://dio:dio@localhost:27017/")
+from src.ConfigurationLoader import ConfigurationLoader as configuration
+
+client = MongoClient(configuration.get_value(section="MONGODB", key="url"))
 
 db = client.dio_live
 
